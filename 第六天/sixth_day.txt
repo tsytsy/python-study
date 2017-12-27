@@ -1,0 +1,71 @@
+第六天：
+软件包安装
+软件包安装有两种方式：二进制安装和源码安装
+一。二进制安装
+1. rpm 安装
+rpm是由红帽公司开发的软件包管理方式，使用rpm我们可以方便的进行软件的安装、查询、卸载、升级等工作。但是rpm软件包之间的依赖性问题
+往往会很繁琐,尤其是软件由多个rpm包组成时。
+
+使用rpm –ivh software.rpm(安装)；
+rpm -e software.rpm(卸载)；
+rpm –U software.rpm(升级形式安装)；
+rpm –ivh http://www.linuxcast.net/software.rpm（支持通过http\ftp协议形式安装）
+
+
+查询功能：rpm –qa 列出全部已经安装的.rpm软件  
+查询验证包是否已经安装：rpm –qa |grep 包名
+某个文件是哪个软件包安装的，或者哪个软件包包含这个文件：rpm -qf /usr/bin/***
+查询包安装路径：rpm -ql ***（这个命令也可以查询yum安装的包路径）
+
+卸载包：rpm -e 包名
+
+
+2. yum安装
+Yum（全称为 Yellow dog Updater, Modified）是一个在Fedora和RedHat以及SUSE中的Shell前端软件包管理器。基於RPM包管理，能够从
+指定的服务器自动下载RPM包并且安装，可以自动处理依赖性关系，并且一次安装所有依赖的软体包，无须繁琐地一次次下载、安装。
+
+1. rpm软件包形式的管理虽然方便，但是需要手工解决软件包的依赖关系。很多时候安装一个软件安装一个软件需要安装1个或者多个其他软件，
+手动解决时，很复杂，yum解决这些问题。Yum是rpm的前端程序，主要目的是设计用来自动解决rpm的依赖关系，其特点：
+	1) 自动解决依赖关系；
+	2) 可以对rpm进行分组，基于组进行安装操作；
+	3) 入仓库概念，支持多个仓库；
+	4) 配置简单
+2. yum仓库用来存放所有的现有的.rpm包，当使用yum安装一个rpm包时，需要依赖关系，会自动在仓库中查找依赖软件并安装。
+仓库可以是本地的，也可以是HTTP、FTP、nfs形式使用的集中地、统一的网络仓库。如何制作本地yum仓库？
+首先在/etc/yum.repos.d目录下创建一个yum仓库，如local.repos，且需要多次文件进行编辑，如下所示
+		a. [local]
+		b. name=local
+		c. baseurl=file:///opt
+		d. enable=1
+		e. gpgcheck=0
+若此时/opt目录下是CDROM或者是一个yum仓库，直接就可以用，因为已经存在依赖文件repodata文件夹；若此时在/opt中只有若干的安装包，并不
+存在依赖文件，那么此时则需要用命令createrepo创建依赖，命令为 ： createrepo 目录
+3. 仓库的配置文件/etc/yum.repos.d目录下
+4. 使用：1)yum install 安装；
+		 2)yum remove卸载；
+		 3)yum update 升级制定软件
+5.安装的时候，会下载软件包.Rpm在安装，所以用国内仓库
+改变镜像源1）访问地址http://mirrors.163.com/；2）点centos使用帮助；3）按步骤来
+6.      查询软件：可以使用yumsearch **
+
+
+二 源码安装
+未经过编译的源代码压缩包，解压后可以看到其中的源代码。其优点有：代码开源、功能选择灵活、效率高、卸载方便，例如
+要安装apache这样需要效率的软件，用源码包较好。相应的也带来了缺点：安装过程繁琐易出错，安装时间由于需要编译，时间长。
+源码包安装需要指定安装位置，一般为：/user/local下，如不指定，会导致软件自动安装在系统到处都是。删除时只需删除源码包即可。
+启动方法：绝对路径 start
+安装方法：
+1、首先保证安装好了C语言的编译器gcc。从官方网站下载源码包。（由于我使用windows下载，之后通过winscp软件将文件拖到了虚拟机中）。
+2、解压缩.tar.gz包。进入解压缩后的文件目录。
+3、运行./config --prefix=/usr/local/apache2，检测安装环境，并指定安装位置。
+4、编译 make。安装 make install。
+5、启动服务：查看其中INSTALL文件，例如启动apache：/usr/local/apache2/bin/ct1 start。
+
+
+
+
+netstat -tunalp
+
+
+
+ps aux | grep ***

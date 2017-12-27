@@ -27,3 +27,20 @@ chmod o+r a.txt
 
 
 目录的可执行权限
+
+读权限：一个用户对一个文件夹只有读文件权限，表示这个用户可以看到这个文件里有哪些文件（跨文件读时，需要执行权限）
+可执行权限：一个用户若需要进入文件夹里面，这个用户必须有这个文件的可执行权限（cd进入）
+写权限：可以在文件夹下对子文件夹或子文件创建、修改、删除等等
+
+权限只有r,w,x，权限作用的目标作用的时文件，并不是说用户有多大权限
+
+多级目录的切换权限
+
+tar命令
+ tar -cf archive.tar foo bar  # Create archive.tar from files foo and bar.
+  tar -tvf archive.tar         # List all files in archive.tar verbosely.
+  tar -xf archive.tar          # Extract all files from archive.tar.
+  
+  打包压缩gzip
+  tar -cfvz test.tar.gz
+  打包压缩bzip2

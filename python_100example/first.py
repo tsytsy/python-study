@@ -9,3 +9,7 @@ for j in range(1,5):
                 d.append(int(str(j)+str(k)+str(l)))
 print(d)
 print(len(d))
+
+
+print('a', end=' '),
+print('b')
