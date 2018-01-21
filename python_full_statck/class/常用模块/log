@@ -1,0 +1,9 @@
+2018-01-14 15:22:51 [15] debug message 
+2018-01-14 15:22:51 [16] info message 
+2018-01-14 15:22:51 [17] warning message 
+2018-01-14 15:22:51 [18] error message 
+2018-01-14 15:22:51 [19] critical message 
+2018-01-14 15:24:03 [20] hello 
+2018-01-14 15:25:06 [20] [20] hello 
+2018-01-14 15:39:27 [15] [DEBUG] debug message 
+2018-01-14 15:39:27 [16] [INFO] hello 

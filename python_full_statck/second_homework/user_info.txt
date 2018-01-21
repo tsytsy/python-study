@@ -1,0 +1,7 @@
+{
+    'tsy':{
+        'account':'ttt',
+        'passwd':'123',
+        'balance':10300,
+    },
+}

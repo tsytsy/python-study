@@ -1,0 +1,38 @@
+#如何存储一个人的完整信息#
+#而且可以很方便的查找出来#
+
+list和dict区别
+
+
+格式化输出：利用占位符
+print("I am %d years old" %(age))
+print("I am",age, "yera old")
+
+print("%-5s %-5s, %-5s %-5s %-5s" % ('id', 'product', 'count', 'pricet', 'cost'))
+                    for i in shopping_list:
+                        print("%-5d %-5s %-5d %-5d %-5d" % (i, shopping_list[i][0],
+                            int(shopping_list[i][1]), int(shopping_list[i][2]), int(shopping_list[i][1]*shopping_list[i][2])))
+                    # for i range(len(shopping_list))
+                    # shopping_list[index] = [product_list[index - 1], count, price_list[index - 1], total_price]
+                    exit()
+
+
+身份运算符
+is 用法：判断一个整数是不是整数：type(num) is int
+                           type(list) is list
+
+
+逻辑运算符：
+or将逻辑分段
+a=3,b=5
+a<4 and a==3 or a<10 and b<10 ------->True
+a==3 or a<1 and b<1 -------->True 只计算前面部分，后面部分不计算
+
+
+bool运算
+一下几种情况都是False
+[]  空列表
+{}  空字典
+()  空元组，空集合
+''  空字符
+0

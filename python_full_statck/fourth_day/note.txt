@@ -1,0 +1,22 @@
+
+if a < b:
+    c = a
+else:
+    c = b
+
+
+三元运算：c = a if a < b else b
+
+八进制：oct
+oct(7) = 0o07
+oct(9) = 0o11
+十六进制：
+hex(3) = 0x3
+hex(15) = 0xf
+hex(17) = 0x11
+
+
+元组
+    和列表一样，但是只能进行读操作，不能写入
+    name=(1,'tsy')
+    dir(name)     把变量所有的功能方法打印出来
