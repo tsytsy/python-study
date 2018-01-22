@@ -150,4 +150,7 @@ git pull <远程主机名> <远程分支名>:<本地分支名>
 	 git pull origin
 	 如果当前分支只有一个追踪分支，连远程主机名都可以省略
 
+	 
+	 git merge --no-ff -m "merge with no-ff" dev
+	 
 '''
