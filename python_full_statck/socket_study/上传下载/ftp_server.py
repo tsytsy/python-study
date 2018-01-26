@@ -54,13 +54,14 @@ class FTPSEVER:
                 f.write(data)
                 recv_size += len(data)
             f.close()
+
     def get(self):
         pass
     def close(self):
         pass
 
 
-ftp_server = FTPSEVER(('127.0.0.1', 9002))
+ftp_server = FTPSEVER(('127.0.0.1', 9004))
 ftp_server.run()
 
 
