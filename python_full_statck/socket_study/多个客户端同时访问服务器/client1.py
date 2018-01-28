@@ -6,8 +6,8 @@ import socket
 import struct
 import json
 ssh_cli = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-ssh_cli.connect(("127.0.0.1", 8001))
-# ssh_cli.connect(("192.168.1.66", 9001))
+# ssh_cli.connect(("127.0.0.1", 8001))
+ssh_cli.connect(("192.168.1.66", 9001))
 while True:
     command = input(">>input command:").strip()
     if not command:
@@ -34,7 +34,7 @@ while True:
         recv_data += data
 
     print(len(recv_data))
-    # print(recv_data.decode("utf-8"))
-    print(recv_data.decode("gbk"))
+    print(recv_data.decode("utf-8"))
+    # print(recv_data.decode("gbk"))
 ssh_cli.close()
 
