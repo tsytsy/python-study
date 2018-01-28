@@ -72,7 +72,7 @@ import random
 #         x2 = chr(random.randint(65, 90))
 #         x = random.choice([x1, x2])
 #     return x
-import my_func
+# import my_func
 #生成一个6位的随机验证码（验证码中只有数字和字母）
 
 # def v_code():
@@ -221,29 +221,29 @@ ERROR:root:错误error
 CRITICAL:root:严重critical
 '''
 
-# def MyLogger():
-#     logger = logging.getLogger()
-#     fm = logging.Formatter('%(asctime)s [%(levelname)s] %(message)s')
-#
-#     fh = logging.FileHandler('access1log')
-#     sh = logging.StreamHandler()
-#     fh.setFormatter(fm)
-#     sh.setFormatter(fm)
-#     logger.addHandler(fh)
-#     logger.addHandler(sh)
-#     logger.setLevel(10)
-#     return logger
-#
-#
-# logger = MyLogger()
+def MyLogger():
+    logger = logging.getLogger()
+    fm = logging.Formatter('%(asctime)s [%(levelname)s] %(message)s')
 
-# logger.debug('logger debug message')
-# logger.info('logger info message')
-# logger.warning('logger warning message')
-# logger.error('logger error message')
-# logger.critical('logger critical message')
+    fh = logging.FileHandler('accesslog')
+    sh = logging.StreamHandler()
+    fh.setFormatter(fm)
+    sh.setFormatter(fm)
+    logger.addHandler(fh)
+    logger.addHandler(sh)
+    logger.setLevel(10)
+    return logger
 
 
-import my_func
-logger = my_func.MyLogger()
-logger.debug('hello')
+logger = MyLogger()
+
+logger.debug('logger debug message')
+logger.info('logger info message')
+logger.warning('logger warning message')
+logger.error('logger error message')
+logger.critical('logger critical message')
+
+#
+# import my_func
+# logger = my_func.MyLogger()
+# logger.debug('hello')
