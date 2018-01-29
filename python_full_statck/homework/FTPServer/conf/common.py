@@ -4,15 +4,13 @@
 import json
 import struct
 import socket
-# def data_pack(data):
-#     data_bytes = data.encode('utf-8')
-#     data_len = len(data_bytes)
-#     head_dic = {'filesize': data_len}
-#     head_dic_json = json.dumps(head_dic)
-#     head_dic_bytes = head_dic_json.encode('utf-8')
-#     head_struct = struct.pack('i', len(head_dic_bytes))
-#     return head_struct, head_dic_bytes, data_bytes
 
-#
-# def send(*args,**kwargs):
-#     socket.socket.send()
+import os
+from os.path import join, getsize
+
+
+def getdirsize(dir):
+    size = 0
+    for root, dirs, files in os.walk(dir):
+        size += sum([getsize(join(root, name)) for name in files])
+    return size

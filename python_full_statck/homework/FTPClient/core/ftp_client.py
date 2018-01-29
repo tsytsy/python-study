@@ -6,7 +6,7 @@ import struct
 import json
 from conf import common
 
-class reg_login(common.my_sock):
+class MyFtpClient(common.my_sock):
 
     def register(self, username, passwd):
         self.username_passwd_transfer('register', username, passwd)
@@ -36,7 +36,4 @@ class reg_login(common.my_sock):
         passwd_md5_obj.update(passwd.encode('utf-8'))
         passwd_md5 = passwd_md5_obj.hexdigest()
         reg_dic = {'cmd': type, 'username': username, 'passwd': passwd_md5}
-        reg_dic_bytes = common.dic_to_bytes(reg_dic)
-        head_struct = struct.pack('i', len(reg_dic_bytes))  # 4bytes数据表示reg_dic的长度，如80
-        self.socket.send(head_struct)
-        self.socket.send(reg_dic_bytes)
+        self.pack_send(reg_dic)

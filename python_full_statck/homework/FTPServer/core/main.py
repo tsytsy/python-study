@@ -38,6 +38,7 @@ class FTPSERVER(socketserver.BaseRequestHandler):
             head_json = head_bytes.decode('utf-8')
             head_dict = json.loads(head_json)
             print(head_dict)
+
             cmd = head_dict['cmd']
             if hasattr(self, cmd):
                 func = getattr(self, cmd)
@@ -48,11 +49,21 @@ class FTPSERVER(socketserver.BaseRequestHandler):
     def put(self, head_dict):
         # logger = Mylogger()
         recv_md5_file = hashlib.md5()
-        BASE_DIR = os.path.join(settings.HOME_DIR, head_dict['username'])
-        if not os.path.exists(BASE_DIR):
-            os.mkdir(BASE_DIR)
-        file_name = os.path.join(BASE_DIR, head_dict['filename'])
+        BASE_DIR1 = os.path.join(settings.HOME_DIR, self.username)
+        if not os.path.exists(BASE_DIR1):
+            os.mkdir(BASE_DIR1)
+        file_name = os.path.join(BASE_DIR1, head_dict['filename'])
         file_size = head_dict['filesize']
+
+        dir_size = common.getdirsize(BASE_DIR1)
+        print('********', file_size, '\t', dir_size)
+        if dir_size + file_size > self.homedir_size:
+            put_feedback_bytes = struct.pack('i', 0)
+            self.request.send(put_feedback_bytes)
+            return
+        else:
+            put_feedback_bytes = struct.pack('i', 1)
+            self.request.send(put_feedback_bytes)
         f = open(file_name, 'wb')
         recv_size = 0
         while recv_size < file_size:
@@ -74,14 +85,17 @@ class FTPSERVER(socketserver.BaseRequestHandler):
         print('recv md5 is:', recv_md5)
         if recv_md5 == send_md5.decode('utf-8'):
             print('收到的文件与接收的文件一致')
+            issame_bytes = struct.pack('i', 1)
         else:
             print('收到的文件与源文件不一致，删除请重传')
+            issame_bytes = struct.pack('i', 0)
             os.remove(file_name)
         f.close()
+        self.request.send(issame_bytes)
 
     def get(self, head):
         print('get..........')
-        BASE_DIR = os.path.join(settings.HOME_DIR, head['username'])
+        BASE_DIR = os.path.join(settings.HOME_DIR, self.username)
         file_name = os.path.join(BASE_DIR, head['filename'])
         if not os.path.exists(file_name):
             print(file_name)
@@ -115,7 +129,8 @@ class FTPSERVER(socketserver.BaseRequestHandler):
 
     def register(self, head_dic):
         print('receve a register request')
-        info_dic = {'username': head_dic['username'], 'passwd': head_dic['passwd']}
+        info_dic = {'username': head_dic['username'], 'passwd': head_dic['passwd'],
+                    'homedir_size': settings.FILE_MAX_SIZE_LEVEL0, 'vip_level': 0}
         user_list = os.listdir(settings.DB_USER_DIR)
         if head_dic['username'] in user_list:
             res = struct.pack('i', 0)
@@ -138,8 +153,11 @@ class FTPSERVER(socketserver.BaseRequestHandler):
             self.request.send(res)
             return
         user_filepath = os.path.join(settings.DB_USER_DIR, head_dic['username'])
+        self.username = head_dic['username']
+        self.current_dir = os.path.join(settings.HOME_DIR, self.username)
         with open(user_filepath, 'r') as f:
             file_head_dic = json.loads(f.read())
+            self.homedir_size = file_head_dic['homedir_size']
             print(file_head_dic)
             if head_dic['username'] == file_head_dic['username'] and head_dic['passwd'] == file_head_dic['passwd']:
                 res = struct.pack('i', 2)
@@ -150,9 +168,36 @@ class FTPSERVER(socketserver.BaseRequestHandler):
                 self.request.send(res)
                 return
 
+    def cd(self, head_dic):
+        cmd = head_dic['cmd']
+        # cmd_split = cmd.split()
+        if len(head_dic) == 1:
+            self.current_dir = os.path.join(settings.HOME_DIR, self.username)
+        if len(head_dic) == 2:
+            if head_dic['check_dir'] == '../':
+                if len(self.current_dir) > len(os.path.join(settings.HOME_DIR, self.username)):
+                    self.current_dir = os.path.dirname(self.current_dir)
+                else:
+                    print('没有上一级目录')
+            else:
+                if not os.path.exists(head_dic['check_dir']):
+                    print('此目录不存在')
+                self.current_dir = os.path.join(self.current_dir, head_dic['check_dir'])
+        print('current dir is:', self.current_dir)
+
+    def ls(self, head_dic):
+        self.cmd(head_dic)
+
+    def pwd(self, head_dic):
+        self.cmd(head_dic)
+
+    def dir(self, head_dic):
+        self.cmd(head_dic)
+
     def cmd(self, head_dic):
 
-        res = subprocess.Popen(head_dic['command'], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        os.chdir(self.current_dir)
+        res = subprocess.Popen(head_dic['cmd'], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         std_out = res.stdout.read()
         err_out = res.stderr.read()
         data_size = len(std_out) + len(err_out)
@@ -164,8 +209,9 @@ class FTPSERVER(socketserver.BaseRequestHandler):
 
         # 报头byte了，但是客户端并不知道报头的长度是多少，但是字典格式的报头用struct就是4bytes
         res = struct.pack('i', len(head_bytes))
-        print()
+
         # 1. 发送报头长度，固定4bytes
+        print(len(res), res)
         self.request.send(res)
         # 2. 发送报头内容
         self.request.send(head_bytes)
@@ -175,9 +221,9 @@ class FTPSERVER(socketserver.BaseRequestHandler):
 
 
 
+
 def run():
-    IP_PORT = ('127.0.0.1', 9004)
-    obj = socketserver.ThreadingTCPServer(IP_PORT, FTPSERVER)
+    obj = socketserver.ThreadingTCPServer(settings.SERVER_ADDRESS, FTPSERVER)
     obj.serve_forever()     # 提供链接循环
     '''
     def finish_request(self, request, client_address):

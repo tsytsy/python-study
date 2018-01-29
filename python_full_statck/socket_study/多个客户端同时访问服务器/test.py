@@ -21,3 +21,5 @@ b = B()
 b.print_x()
 
 
+import os
+os.walk()

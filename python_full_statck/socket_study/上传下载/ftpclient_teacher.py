@@ -141,7 +141,7 @@ class MYTCPClient:
         NUM_OF_STAR = int(percent * 100 / 2)
         print('[%s]%s%%' % ('#' * NUM_OF_STAR, percent1))
 
-client=MYTCPClient(('127.0.0.1', 9004))
+client=MYTCPClient(('192.168.1.66', 9005))
 client.run()
 
 # put D:\\GoogleDownload\\python-3.6.4.exe
@@ -149,6 +149,7 @@ client.run()
 # put D:\\GoogleDownload\\Python-3.6.4.tgz
 # put D:\\GoogleDownload\\BaiduNetdisk_5.7.2.3.exe
 # put D:\\GoogleDownload\\Wireshark-win32-2.4.3.0.exe
+# put D:\\workplace\\python-study\\python_full_statck\\homework\\FTPServer.zip
 # get python-3.6.4.exe
 # get SourceTreeSetup_1.4.1.exe
 # get BaiduNetdisk_5.7.2.3.exe
