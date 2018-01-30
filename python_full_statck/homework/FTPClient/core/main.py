@@ -61,15 +61,15 @@ class start(ftp_client.MyFtpClient):
         6. 冲会员
         q. 退出服务
         '''
-        menu_dic = {
-            '1': self.put,
-            '2': self.get,
-            '3': self.cd,
-            '4': self.ls,
-            '5': self.pwd,
-            '6': self.charge,
-            'q': exit
-        }
+        # menu_dic = {
+        #     '1': self.put,
+        #     '2': self.get,
+        #     '3': self.cd,
+        #     '4': self.ls,
+        #     '5': self.pwd,
+        #     '6': self.charge,
+        #     'q': exit
+        # }
         while True:
             print(menu)
             # choose = input("请选择服务(编号)>>: ").strip()

@@ -179,3 +179,22 @@ port可以找到运行在B机器的程序。
 在这个信息传送的过程，我一直都知道目的地，没到一处地方，不管是做火车还是做飞机，其实是路由的方式不同
 而已没在本质上都是MAC信息的传送。
 '''
+
+'''
+网络编程注意事项
+1. 网络传输的是byte格式，不能传输明文，故发送和接收之前都需要进行编码和解码
+2. TCP传输是基于流的，传输需要解决粘包问题，如下所示minus
+3. TCP是基于流的，所以需要加上报头和报头的长度部分(4bytes)，不然无法区分报头长度和数据长度
+    也就是说，内容的完整发送需要包括三部分：报头长度，报头，数据
+'''
+while recv_size < data_size:
+    minus = data_size - recv_size
+    if minus > 1024:
+        size = 1024
+    else:
+        size = minus
+    recv_data = self.socket.recv(size)
+    f.write(recv_data)
+    recv_md5_obj.update(recv_data)
+    recv_size += len(recv_data)
+    self.process(recv_size, data_size
