@@ -1,0 +1,34 @@
+http://www.cnblogs.com/yuanchenqi/articles/6755717.html#_label3
+
+1. IO是什么？
+2. IO分类：
+    blocking IO         阻塞IO
+    nonblocking IO      非阻塞IO
+    IO multiplexing     IO多路复用
+    signal driven IO
+    asynchronous IO     异步IO
+
+再说一下IO发生时涉及的对象和步骤。
+对于一个network IO (这里我们以read举例)，它会涉及到两个系统对象，一个是调用这个IO的process (or thread)，
+另一个就是系统内核(kernel)。当一个read操作发生时，它会经历两个阶段：
+
+等待数据准备 (Waiting for the data to be ready)
+将数据从内核拷贝到进程中 (Copying the data from the kernel to the process)
+记住这两点很重要，因为这些IO Model的区别就是在两个阶段上各有不同的情况
+
+1 阻塞IO:全程阻塞
+
+
+2 非阻塞IO:
+
+        发送多次系统调用；优点：wait for data时无阻塞
+
+        缺点：1 系统调用太多 2 数据不是实时接受的
+
+		两个阶段：wait for data:非阻塞
+
+		          copy data   :阻塞
+3. IO多路复用
+
+多路的意思是使用select等模块，使得服务器可以接多个客户端，但是同时只能和一个客户端进行通信，当服务端
+处于空闲状态时，服务器可以与任意一个客户端进行通信，而且可以建立新的连接。(单线程)

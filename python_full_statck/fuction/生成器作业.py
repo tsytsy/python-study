@@ -48,25 +48,25 @@ send 和next的异同
 '''
 
 
-# def init(func):
-#     def wrapper(*args, **kwargs):
-#         g = func(*args, **kwargs)
-#         next(g)
-#         return g
-#     return wrapper
-#
-#
-# @init   #eater = init(eater)
-# def eater():
-#     food_list = []
-#     while True:
-#         food = yield food_list
-#         food_list.append(food)
-#
-#
-# o = eater()
-# print(o.send('egg'))
-# print(o.send('meat'))
+def init(func):
+    def wrapper(*args, **kwargs):
+        g = func(*args, **kwargs)
+        next(g)
+        return g
+    return wrapper
+
+
+@init   #eater = init(eater)
+def eater():
+    food_list = []
+    while True:
+        food = yield food_list
+        food_list.append(food)
+
+
+o = eater()
+print(o.send('egg'))
+print(o.send('meat'))
 
 #实现功能：grep  -rl  'python'  /etc
 '''

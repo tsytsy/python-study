@@ -30,32 +30,32 @@ g = count()
 print(isinstance(g, Iterator))
 # # for i in g:
 # #     print(i)
-print(next(g))
-print(next(g))
-print(next(g))
+# print(next(g))
+# print(next(g))
+# print(next(g))
 #
 # c1 = 5
 # while c1 > 0:
-#     print(c1)
+#     # print(c1)
 #     c1 -= 1
 #     if c1 < 3:
 #         print(next(g))
 
 
-# def foo():
-#     print('one')
-#     yield 1
-#     print('two')
-#     yield 2
-#     print('3')
-#     yield 3
-#
-#
-# g = foo()
-# print(next(g))
-# print(next(g))
-# print(next(g))
-# print(next(g))
+def foo():
+    print('one')
+    yield 1
+    print('two')
+    yield 2
+    print('3')
+    yield 3
+
+
+g = foo()
+print(next(g))
+print(next(g))
+print(next(g))
+print(next(g))
 
 
 
